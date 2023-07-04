@@ -49,9 +49,10 @@
         <th>Отмена</th>
         <th>Доступные ТС</th>
         <th>Стутус</th>
+        <th>Статус "Выполнен"</th>
     </tr>
     <#list orders as order>
-        <#if !order.isCreated() && order.carrierId == user.getId()>
+        <#if !order.isCompleted() && !order.isCreated() && order.carrierId == user.getId()>
             <tr>
                 <#--<th>${order.id}</th>
                 <th>${order.dateOfCreated}</th>-->
@@ -95,6 +96,14 @@
                         </form>
                     </th>
                 </#if>
+                <th>
+                    <#if order.isProcess()>
+                        <form action="/carrier/order/complete/${order.id}" method="post">
+                            <input type="hidden" name="_csrf" value="${_csrf.token}">
+                            <input type="submit" value="Выполнен" class="btn btn-success">
+                        </form>
+                    </#if>
+                </th>
             </tr>
         </#if>
     <#else>
